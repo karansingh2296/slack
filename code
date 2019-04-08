@@ -1,0 +1,113 @@
+Slack API Code:
+
+
+
+package api.test.com;
+
+import com.jayway.restassured.RestAssured;
+import com.jayway.restassured.config.EncoderConfig;
+import com.jayway.restassured.http.ContentType;
+import com.jayway.restassured.response.Response;
+import com.jayway.restassured.specification.RequestSpecification;
+import org.json.simple.JSONObject;
+import static com.jayway.restassured.RestAssured.given;
+
+
+public class slack {
+
+    public static void main(String args[]) throws Exception{
+        slack sl = new slack();
+        slack.createChannel("https://slack.com/api/channels.create","testing",true);
+        slack.joinChannel("https://slack.com/api/channels.join","testing",true);
+        slack.renameChannel("https://slack.com/api/channels.rename","testingChannel","testing",true);
+        slack.getList("https://slack.com/api/channels.list");
+        slack.archiveTest("https://slack.com/api/channels.archive","testingChannel");
+    }
+
+    //This method is used to create a slack channel with name = testing.
+   public static int createChannel(String host, String chName, boolean validation){
+        RequestSpecification postMethod = RestAssured.given();
+        JSONObject requestParams = new JSONObject();
+        requestParams.put("channelNm",chName);
+        requestParams.put("val",validation);
+        given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs("application/x-www-form-urlencoded, application/json", ContentType.TEXT)));
+        given().header("Authorization", "Token" + "xoxp-592741862516-592741863684-593107542021-7b40d47cc620e4adf40fd7e320539098");
+        postMethod.body(requestParams.toJSONString());
+        System.out.println(postMethod.body(requestParams.toJSONString().toString()));
+        System.out.println("The value is " + postMethod);
+        Response response = postMethod.post(host);
+        int code = response.getStatusCode();
+        System.out.println("Status code is " + code);
+        return code;
+    }
+
+
+    //This method is used to join a slack channel with name = testing.
+    public static int joinChannel(String host,String chName,boolean validation){
+        RequestSpecification postMethod = RestAssured.given();
+        JSONObject requestParams = new JSONObject();
+        requestParams.put("channelNm",chName);
+        requestParams.put("val",validation);
+        given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs("application/x-www-form-urlencoded, application/json", ContentType.TEXT)));
+        given().header("Authorization", "Token" + "xoxp-592741862516-592741863684-593107542021-7b40d47cc620e4adf40fd7e320539098");
+        postMethod.body(requestParams.toJSONString());
+        System.out.println(postMethod.body(requestParams.toJSONString().toString()));
+        System.out.println("The value is " + postMethod);
+        Response response = postMethod.post(host);
+        int code = response.getStatusCode();
+        System.out.println("Status code is " + code);
+        return code;
+    }
+
+    //This method is used to rename a slack channel with name "testing" to new name "testinhChannel".
+    public static int renameChannel(String host,String ch, String chName, boolean validation){
+        RequestSpecification postMethod = RestAssured.given();
+        JSONObject requestParams = new JSONObject();
+        requestParams.put("renamech",ch);
+        requestParams.put("channelNm",chName);
+        requestParams.put("val",validation);
+        given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs("application/x-www-form-urlencoded, application/json", ContentType.TEXT)));
+        given().header("Authorization", "Token" + "xoxp-592741862516-592741863684-593107542021-7b40d47cc620e4adf40fd7e320539098");
+        postMethod.body(requestParams.toJSONString());
+        System.out.println(postMethod.body(requestParams.toJSONString().toString()));
+        System.out.println("The value is " + postMethod);
+        Response response = postMethod.post(host);
+        int code = response.getStatusCode();
+        System.out.println("Status code is " + code);
+        return code;
+    }
+
+    //This method is used to get the list of all slack channels and validate renamed channel "testinChannel" is present in the list.
+    public static void getList(String host){
+       given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs("application/x-www-form-urlencoded", ContentType.TEXT)));
+       given().header("Authorization", "Token" + "xoxp-592741862516-592741863684-593107542021-7b40d47cc620e4adf40fd7e320539098");
+       String listValue = given().get(host).asString();
+       System.out.println("The value of channel list is " + listValue);
+       if(listValue.contains("testingChannel")){
+           System.out.println("The required channel is listed" + "Pass");
+       }
+       else
+       {
+           System.out.println("The required channel is not listed" + "Fail");
+
+       }
+    }
+
+    //This method is used to archive a slack channel with name = testingChannel.
+    public static int archiveTest(String host,String chName){
+        RequestSpecification postMethod = RestAssured.given();
+        JSONObject requestParams = new JSONObject();
+        requestParams.put("channelNm",chName);
+        given().config(RestAssured.config().encoderConfig(EncoderConfig.encoderConfig().encodeContentTypeAs("application/x-www-form-urlencoded, application/json", ContentType.TEXT)));
+        given().header("Authorization", "Token" + "xoxp-592741862516-592741863684-593107542021-7b40d47cc620e4adf40fd7e320539098");
+        postMethod.body(requestParams.toJSONString());
+        System.out.println(postMethod.body(requestParams.toJSONString().toString()));
+        System.out.println("The value is " + postMethod);
+        Response response = postMethod.post(host);
+        int code = response.getStatusCode();
+        System.out.println("Status code is " + code);
+        return code;
+    }
+
+}
+
