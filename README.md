@@ -1,6 +1,6 @@
 Project Name : Slack Project
 
-This project is to create, join, rename, list and archive a Slack API channel, which is achieved by user using the Slack API methods.
+This project is to create, join, rename, list and archive a Slack API channel, which is achieved by user using the Slack API methods. The project uses Get & Post HTTP request and responses. The project utilizes modular code which can be used inside different methods. 
 
 
 Getting Started
